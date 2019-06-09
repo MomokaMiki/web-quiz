@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>wot</title>
+  <style>
+    body{
+      text-align: center;
+    }
+    *{
+      color: #423728;
+    }
+    input[name="quiz"]{
+      display: none;
+    }
+    .select-answer.end{
+      position: relative;
+      z-index: -1;
+    }
+    .quiz-area p{
+      width: 800px;
+      display: flex;
+      justify-content: space-between;
+      margin: 0 auto;
+    }
+   .select-answer{
+     display: block;
+     width: 240px;
+     height: 240px;
+     border-radius: 50%;
+     text-align: center;
+     line-height: 290px;
+     position: relative;
+     color:#423728;
+   }
+   .select-answer span{
+    display: block;
+    position: absolute;
+    top: -60px;
+    left: 50%;
+    font-size: 3rem;
+    transform: translateX(-50%);
+   }
+   .result-area{
+    display: none;
+    width: 500px;
+    padding-bottom: 30px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+    text-align: center;
+    border-radius: 0.5rem;
+   }
+   .result-text{
+     font-size: 3rem;
+   }
+   .result-area.ok{
+    display: block;
+    background: #EAB079;
+   }
+   .result-area.ng{
+    display: block;
+    background: #79CAEA;
+   }
+  #quiz-A+label{
+    background: #ec7986;
+    box-shadow:0 10px 0 #C46671;
+  }
+  #quiz-A+label:hover{
+    box-shadow: none;
+    position: relative;
+    top: 16px;
+  }
+  #quiz-A:checked +label{
+    box-shadow: none;
+    position: relative;
+    top: 16px;
+  }
+  #quiz-B+label{
+    background: #ffe873;
+    box-shadow:0 10px 0 #D8C563;
+  }
+  #quiz-B+label:hover{
+    box-shadow: none;
+    position: relative;
+    top: 16px;
+  }
+  #quiz-B:checked +label{
+    box-shadow: none;
+    position: relative;
+    top: 16px;
+  }
+  #quiz-C+label{
+    background: #a3b6de;
+    box-shadow:0 10px 0 #8797B7;
+  }
+  #quiz-C+label:hover{
+    box-shadow: none;
+    position: relative;
+    top: 16px;
+  }
+  #quiz-C:checked +label{
+    box-shadow: none;
+    position: relative;
+    top: 16px;
+  }
+  @keyframes meterAnime {
+    from {
+      left: 100%
+    }
+    to {
+      left: 0%;
+    }
+  }
+  .meter-box{
+    width: 500px;
+    height: 20px;
+    margin: 0 auto;
+    border: solid 1px #f5bdc8;
+    position :relative;
+    overflow: hidden;
+    background: #f5bdc8;
+    border-radius: 0.5rem;
+  }
+  .meter{
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    position: absolute;
+    left: 100%;
+  }
+  .meter.anime{
+    animation-name: meterAnime;
+    animation-timing-function : linear;
+    animation-fill-mode:forwards;
+    animation-play-state: running;
+  }
+  .meter.pause{
+    animation-play-state: paused;
+  }
+  h3{
+    text-align: center;
+    font-size: 2rem;
+  }
+  .btn-finish-quiz{
+    display: none;
+    margin: 0 auto;
+  }
+  .btn-start{
+    width: 200px;
+    height: 100px;
+    font-size: 2rem;
+  }
+  .btn-start.end{
+    position: relative;
+    z-index: -1;
+  }
+  .team{
+    border: solid 1px #f5bdc8;
+  }
+  .team input{
+    width: 80px;
+  }
+  .clock{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border :solid 3px #333;
+    position: relative;
+  }
+  .clock+p{
+    text-align: left;
+  }
+  .clock::before{
+    content: "";
+    display: block;
+    width: 2px;
+    height: 50px;
+    background :#333;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .clock span{
+    display: block;
+    width: 2px;
+    height: 50px;
+    background :#333;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    transform-origin: bottom; 
+    animation-name: clockAnime;
+    animation-timing-function : linear;
+    animation-fill-mode:forwards;
+    animation-duration: 60s;
+  }
+  @keyframes clockAnime {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  </style>
+</head>
+<body>
+  <h1>選択問題サンプル</h1>
+  <div class="clock"><span></span></div>
+  <p>↑１分間</p>
+  <div class="team">
+    <h2>チーム名生成</h2>
+    <p>フルネーム&ひらがなでおねがいします。例：おおさか たろう<br>留学生の方で難しい場合は、名字・名前どちらもニックネームにしてください。例：グェン ティ タオ => 名字：タオ 名前：タオ</p>
+    <p class="memberEn">
+      <input type="text" placeholder="みょうじ">
+      <input type="text" placeholder="なまえ">
+    </p>
+    <p class="memberDe">
+      <input type="text" placeholder="みょうじ">
+      <input type="text" placeholder="なまえ">
+    </p>
+    <button class="btn-create-name">チーム名を作成</button>
+    <p class="team-name">あなたたちのチーム名は...<span></span></p>
+  </div>
+  <h2>webクイズ</h2>
+  <p>獲得ポイント：<span class="point-area">0</span></p>
+  <p>制限時間：10秒</p>
+  <button class="btn-start">START</button>
+  <p class="remain-time"></p>
+  <div class="meter-box"><span class="meter"></span></div>
+
+  <form class="quiz-area">
+    <!-- <div class="quiz-box">
+      <h3>Q,HTMLを発明した人は誰でしょう？</h3>
+      <p>
+        <input id="quiz-A" type="radio" name="quiz" value="0">
+        <label for="quiz-A" class="select-answer"><span>A</span>ヴィントン・サーフ</label>
+
+        <input id="quiz-B" type="radio" name="quiz" value="1">
+        <label for="quiz-B" class="select-answer"><span>B</span>ロバート・カイリュー</label>
+
+        <input id="quiz-C" type="radio" name="quiz" value="2">
+        <label for="quiz-C" class="select-answer"><span>C</span>ティム・バーナーズ＝リー</label>
+      </p>
+    </div> -->
+  </form>
+  <div class="result-area">
+    <p class="result-text"></p>
+    <p class="correct-answer"></p>
+    <p class="correct-descript"></p>
+    <button class="btn-next-quiz">次へ</button>
+    <button class="btn-finish-quiz">おわり</button>
+  </div>
+  <script src="js/jquery-3.3.1.min.js"></script>
+  <script src="js/time.js"></script>
+  <script src="js/create.js"></script>
+  <script src="js/timeover.js"></script>
+</body>
+</html>
